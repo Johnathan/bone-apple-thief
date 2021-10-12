@@ -71,7 +71,7 @@ recipeScraper("some.recipe.url").then(recipe => {
 - https://tastesbetterfromscratch.com/
 - https://thatlowcarblife.com/
 - https://www.theblackpeppercorn.com/
-- https://therealfoodrds.com/
+- https://therealfooddietitians.com/
 - https://www.thespruceeats.com/
 - https://whatsgabycooking.com/
 - https://www.woolworths.com.au/

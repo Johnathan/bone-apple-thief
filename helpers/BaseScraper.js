@@ -6,6 +6,7 @@ const {validate} = require("jsonschema");
 
 const Recipe = require("./Recipe");
 const recipeSchema = require("./RecipeSchema.json");
+const {createInvalidArgumentTypeError} = require("mocha/lib/errors");
 
 /**
  * Abstract Class which all scrapers inherit from
@@ -67,18 +68,17 @@ class BaseScraper {
 
             if (result['@graph'] && Array.isArray(result['@graph'])) {
               result['@graph'].forEach(g => {
-                if (g['@type'] === 'Recipe') {
+                if ((g['@type'] === 'Recipe') || (Array.isArray(g['@type']) && g['@type'].includes('Recipe'))) {
                   recipe = g;
                 }
               })
             }
 
-            if (result['@type'] === 'Recipe') {
+            if ((result['@type'] === 'Recipe') || (Array.isArray(result['@type']) && result['@type'].includes('Recipe'))) {
               recipe = result;
             }
 
             if (recipe) {
-              // console.log('found a Recipe type json schema!');
               try {
                 // name
                 this.recipe.name = BaseScraper.HtmlDecode($, recipe.name);
@@ -97,40 +97,69 @@ class BaseScraper {
                   } else if (typeof recipe.image === "string") {
                     this.recipe.image = recipe.image;
                   } else if (Array.isArray(recipe.image)) {
-                    this.recipe.image = recipe.image[0];
+                    const image = recipe.image[0];
+                    if (image["@type"] === "ImageObject") {
+                      this.recipe.image = image.url;
+                    } else if (typeof image === "string") {
+                      this.recipe.image = image;
+                    }
                   }
+                } else if(recipe.thumbnailUrl) {
+                  if (typeof recipe.thumbnailUrl === "string") {
+                    this.recipe.image = recipe.thumbnailUrl;
+                  } else if (Array.isArray(recipe.thumbnailUrl)) {
+                    this.recipe.image = recipe.thumbnailUrl[0];
+                  }
+
                 } else {
                   this.defaultSetImage($);
                 }
 
-
                 // tags
-                this.recipe.tags = [];
+                this.recipe.tags = new Set();
                 if (recipe.keywords) {
                   if (typeof recipe.keywords === "string") {
-                    this.recipe.tags = [...recipe.keywords.split(',')]
+                    recipe.keywords.split(',').forEach(keyword => {
+                      this.recipe.tags.add(keyword.trim());
+                    });
                   } else if (Array.isArray(recipe.keywords)) {
-                    this.recipe.tags = [...recipe.keywords]
+                    recipe.keywords.forEach(keyword => {
+                      this.recipe.tags.add(keyword);
+                    });
                   }
                 }
 
                 if (recipe.recipeCuisine) {
                   if (typeof recipe.recipeCuisine === "string") {
-                    this.recipe.tags.push(recipe.recipeCuisine)
+                    this.recipe.tags.add(recipe.recipeCuisine)
                   } else if (Array.isArray(recipe.recipeCuisine)) {
-                    this.recipe.tags = [...new Set([...this.recipe.tags, ...recipe.recipeCuisine])]
+                    recipe.recipeCuisine.forEach(cuisine => {
+                      this.recipe.tags.add(cuisine);
+                    });
                   }
                 }
 
                 if (recipe.recipeCategory) {
                   if (typeof recipe.recipeCategory === "string") {
-                    this.recipe.tags.push(recipe.recipeCategory)
-                  } else if (Array.isArray(recipe.recipeCategory)) {
-                    this.recipe.tags = [...new Set([...this.recipe.tags, ...recipe.recipeCategory])]
+                    if (recipe.recipeCategory.indexOf('|') >= 0) {
+                      recipe.recipeCategory = recipe.recipeCategory.split('|');
+                    } else {
+                      recipe.recipeCategory = recipe.recipeCategory.split(',');
+                    }
+                  }
+
+                  if (Array.isArray(recipe.recipeCategory)) {
+                    recipe.recipeCategory.forEach(category => {
+                      this.recipe.tags.add(category);
+                    });
                   }
                 }
 
-                this.recipe.tags = this.recipe.tags.map(i => BaseScraper.HtmlDecode($, i));
+                this.recipe.tags = Array.from(this.recipe.tags).map(i => BaseScraper.HtmlDecode($, i)).filter(tag => {
+                  if (tag) {
+                    return tag;
+                  }
+                });
 
                 // ingredients
                 if (Array.isArray(recipe.recipeIngredient)) {
@@ -140,20 +169,20 @@ class BaseScraper {
                 }
 
                 // instructions (may be string, array of strings, or object of sectioned instructions)
-                this.recipe.instructions = [];
-                this.recipe.sectionedInstructions = [];
+                this.recipe.instructions = new Set();
+                this.recipe.sectionedInstructions = new Set();
 
                 if (recipe.recipeInstructions &&
                   recipe.recipeInstructions["@type"] === "ItemList" &&
                   recipe.recipeInstructions.itemListElement) {
 
                   recipe.recipeInstructions.itemListElement.forEach(section => {
-                    this.recipe.instructions = [
-                      ...this.recipe.instructions,
-                      ...section.itemListElement.map(i => BaseScraper.HtmlDecode($, i.text))
-                    ];
+                    section.itemListElement.map(i => BaseScraper.HtmlDecode($, i.text)).forEach(instruction => {
+                      this.recipe.instructions.add(instruction);
+                    });
+
                     section.itemListElement.forEach(i => {
-                      this.recipe.sectionedInstructions.push({
+                      this.recipe.sectionedInstructions.add({
                         sectionTitle: section.name,
                         text: BaseScraper.HtmlDecode($, i.text),
                         image: i.image || ''
@@ -163,8 +192,8 @@ class BaseScraper {
                 } else if (Array.isArray(recipe.recipeInstructions)) {
                   recipe.recipeInstructions.forEach(instructionStep => {
                     if (instructionStep["@type"] === "HowToStep") {
-                      this.recipe.instructions.push(BaseScraper.HtmlDecode($, instructionStep.text));
-                      this.recipe.sectionedInstructions.push({
+                      this.recipe.instructions.add(BaseScraper.HtmlDecode($, instructionStep.text));
+                      this.recipe.sectionedInstructions.add({
                         sectionTitle: instructionStep.name || '',
                         text: BaseScraper.HtmlDecode($, instructionStep.text),
                         image: instructionStep.image || ''
@@ -172,9 +201,9 @@ class BaseScraper {
                     } else if (instructionStep["@type"] === "HowToSection") {
                       if (instructionStep.itemListElement) {
                         instructionStep.itemListElement.forEach(step => {
-                          this.recipe.instructions.push(BaseScraper.HtmlDecode($, step.text));
+                          this.recipe.instructions.add(BaseScraper.HtmlDecode($, step.text));
 
-                          this.recipe.sectionedInstructions.push({
+                          this.recipe.sectionedInstructions.add({
                             sectionTitle: instructionStep.name,
                             text: BaseScraper.HtmlDecode($, step.text),
                             image: step.image || ''
@@ -182,12 +211,15 @@ class BaseScraper {
                         });
                       }
                     } else if (typeof instructionStep === "string") {
-                      this.recipe.instructions.push(BaseScraper.HtmlDecode($, instructionStep));
+                      this.recipe.instructions.add(BaseScraper.HtmlDecode($, instructionStep));
                     }
                   });
                 } else if (typeof recipe.recipeInstructions === "string") {
                   this.recipe.instructions = [BaseScraper.HtmlDecode($, recipe.recipeInstructions)]
                 }
+
+                this.recipe.sectionedInstructions = Array.from(this.recipe.sectionedInstructions);
+                this.recipe.instructions = Array.from(this.recipe.instructions);
 
                 // prep time
                 if (recipe.prepTime) {
@@ -275,6 +307,7 @@ class BaseScraper {
       this.scrape($);
     } catch (e) {
       // throw e;
+      console.log('ERROR CREATING RECIPE OBJECT', e.message);
       this.defaultError();
     }
 
@@ -287,7 +320,7 @@ class BaseScraper {
    * @returns {object} - an object representing the recipe
    */
   scrape($) {
-    throw new Error("scrape is not defined in BaseScraper");
+    this.defaultLD_JOSN($);
   }
 
   textTrim(el) {
@@ -309,7 +342,10 @@ class BaseScraper {
    */
   validateRecipe() {
     let res = validate(this.recipe, recipeSchema);
+
+
     if (!res.valid) {
+      // console.log(res.errors);
       this.defaultError();
     }
     return this.recipe;

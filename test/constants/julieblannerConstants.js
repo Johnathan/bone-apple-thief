@@ -38,6 +38,6 @@ module.exports = {
     },
     servings: "4",
     image:
-      "https://julieblanner.com/wp-content/uploads/2020/09/easy-chicken-enchilada-recipe-2.jpeg"
+        "https://julieblanner.com/wp-content/uploads/2020/09/chicken-enchiladas.jpeg",
   }
 };

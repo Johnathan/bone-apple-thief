@@ -27,12 +27,12 @@ module.exports = {
     ],
     tags: ["Dessert", "American"],
     time: {
-      prep: "10 minutes",
-      cook: "1 hour",
+      prep: "",
+      cook: "",
       active: "",
       inactive: "",
       ready: "",
-      total: "1 hour 10 minutes"
+      total: ""
     },
     servings: "12",
     image:

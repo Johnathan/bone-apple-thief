@@ -4,7 +4,7 @@ module.exports = {
   invalidDomainUrl: "www.invalid.com",
   nonRecipeUrl: "https://www.simplyrecipes.com/recipes/type/quick/",
   expectedRecipe: {
-    name: "\nPanzanella Bread Salad\n",
+    name: "Panzanella Bread Salad",
     description:
       "Got ripe summer tomatoes? Got day-old bread? Make this classic Tuscan Panzanella Salad recipe! This is a great make-ahead recipe for a summer potluck or backyard party, or make it for dinner and serve with grilled chicken.",
     ingredients: [
@@ -20,17 +20,26 @@ module.exports = {
       "Mix everything together and let marinate, covered, at room temperature for at least 30 minutes.",
       "If refrigerating, let come to room temperature before serving."
     ],
-    tags: [],
+    tags: [
+        'Make-ahead',
+        'Salad',
+        'Italian',
+        'Vegan',
+        'Vegetarian',
+        'Lunch',
+        'Side Dish',
+        'Favorite Summer'
+    ],
     time: {
-      prep: "15 mins",
+      prep: "15 minutes",
       cook: "",
       active: "",
-      inactive: "30 mins",
+      inactive: "",
       ready: "",
-      total: "45 mins"
+      total: "45 minutes"
     },
-    servings: "6 to 8 servings",
+    servings: "8",
     image:
-      "https://www.simplyrecipes.com/thmb/uItRtn2b5mGAnHWj5g2Wfb43YOo=/1600x1067/filters:fill(auto,1)/__opt__aboutcom__coeus__resources__content_migration__simply_recipes__uploads__2013__07__panzanella-bread-salad-horiz-a-1600-694a76c8b391430c8012f5c916aa8caa.jpg"
+      "https://www.simplyrecipes.com/thmb/t7sd-cTfzF4AKAmDZCbWPDCLpS0=/1600x900/smart/filters:no_upscale()/__opt__aboutcom__coeus__resources__content_migration__simply_recipes__uploads__2013__07__panzanella-bread-salad-horiz-a-1600-694a76c8b391430c8012f5c916aa8caa.jpg"
   }
 };

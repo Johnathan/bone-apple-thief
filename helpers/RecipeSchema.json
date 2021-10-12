@@ -47,9 +47,7 @@
         "total": { "type": "string" }
       }
     },
-    "servings": {
-      "type": { "type": "string" }
-    },
+    "servings": { "type": "string" },
     "image": { "type": "string" }
   }
 }

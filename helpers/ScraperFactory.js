@@ -42,7 +42,7 @@ const domains = {
   theblackpeppercorn: require("../scrapers/TheBlackPeppercornScraper"),
   thepioneerwoman: require("../scrapers/ThePioneerWomanScraper"),
   therecipecritic: require("../scrapers/TheRecipeCriticScraper"),
-  therealfoodrds: require("../scrapers/TheRealFoodDrsScraper"),
+  therealfooddietitians: require("../scrapers/TheRealFoodDietitiansScraper"),
   thespruceeats: require("../scrapers/TheSpruceEatsScraper"),
   whatsgabycooking: require("../scrapers/WhatsGabyCookingScraper"),
   woolworths: require("../scrapers/WoolworthsScraper"),

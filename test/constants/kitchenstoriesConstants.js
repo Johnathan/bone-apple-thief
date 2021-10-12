@@ -13,7 +13,7 @@ module.exports = {
       "1 red onion",
       "½ chili",
       "80 g cheese",
-      "2 avocadoes",
+      "2 avocados",
       "70 g cilantro",
       "3 radishes",
       "8 eggs",

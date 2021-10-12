@@ -420,7 +420,8 @@ module.exports = {
           'Add pasta water as needed to combine, transfer to ' +
           'serving bowl and top with more cheese, remaining ' +
           'eggplant, fresno chilis (if using), parsley and ' +
-          'mint'
+          'mint',
+          'Listicle: Cucina Dinnerware 14-Inch Round Serving Bowl'
         ],
         tags: [
           'Food & Fun',
@@ -504,6 +505,11 @@ module.exports = {
             'serving bowl and top with more cheese, remaining ' +
             'eggplant, fresno chilis (if using), parsley and ' +
             'mint',
+            image: ''
+          },
+          {
+            sectionTitle: '',
+            text: 'Listicle: Cucina Dinnerware 14-Inch Round Serving Bowl',
             image: ''
           }
         ]

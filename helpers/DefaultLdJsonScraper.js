@@ -21,9 +21,6 @@ class DefaultLdJsonScraper extends BaseScraper {
     if (!isSchemaFound) {
       throw new Error("Site not yet supported");
     }
-
-    // console.log(this.recipe)
-
   }
 }
 

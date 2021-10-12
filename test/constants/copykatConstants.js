@@ -19,12 +19,12 @@ module.exports = {
     ],
     tags: [],
     time: {
-      prep: "",
-      cook: "",
+      prep: "5 minutes",
+      cook: "7 minutes",
       active: "",
       inactive: "",
       ready: "",
-      total: ""
+      total: "12 minutes"
     },
     servings: "4",
     image:

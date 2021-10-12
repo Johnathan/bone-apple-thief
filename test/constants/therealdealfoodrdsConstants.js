@@ -1,8 +1,8 @@
 module.exports = {
-  testUrl: "https://therealfoodrds.com/veggie-loaded-turkey-chili/",
-  invalidUrl: "https://therealfoodrds.com/notarealurl",
+  testUrl: "https://therealfooddietitians.com/veggie-loaded-turkey-chili/",
+  invalidUrl: "https://therealfooddietitians.com/notarealurl",
   invalidDomainUrl: "www.invalid.com",
-  nonRecipeUrl: "https://therealfoodrds.com/category/courses/slow-cooker/",
+  nonRecipeUrl: "https://therealfooddietitians.com/category/courses/slow-cooker/",
   expectedRecipe: {
     name: "Veggie Loaded Turkey Chili",
     description: "When the weather turns cold, warming up with a bowl of Veggie Loaded Turkey Chili is about as good as it gets! A gluten-free recipe that serves 5-6.",
@@ -25,16 +25,17 @@ module.exports = {
       "Optional: Diced avocado, chopped cilantro, shredded cheese, sour cream or Greek yogurt and/or lime wedges for serving"
     ],
     instructions: [
-      "Stovetop Directions:",
       "In a large pot or Dutch oven over medium heat add the oil. Once the oil is hot, add ground meat, garlic, onions, bell peppers, zucchini or yellow squash, and carrots and sauté for 7-9 minutes or until meat is cooked and no longer pink.",
       "Add seasonings, tomato sauce, crushed tomatoes, beans, corn, and water. Bring to a boil over medium-high heat. Reduce heat to low, cover, and simmer for 15 minutes or until carrots are tender. Serve with toppings of choice.",
-      "Slow Cooker Directions:",
       "Follow directions for the Stovetop version through Step 1.",
       "Add turkey and vegetable mixture to slow cooker.",
       "Add remaining ingredients (except salt and pepper) and stir to combine.",
       "Cook on LOW for 8 hours or on HIGH for 4 hours."
     ],
-    tags: ["Entree","Soup"],
+    tags: [
+        "Entree",
+        "Soup"
+    ],
     time: {
       prep: "15 mins",
       cook: "25 mins",
@@ -45,6 +46,6 @@ module.exports = {
     },
     servings: "6",
     image:
-      "https://therealfooddietitians.com/wp-content/uploads/2017/10/IMG_9397-2-e1508438046925.jpg"
+      "https://therealfooddietitians.com/wp-content/uploads/2017/10/IMG_9397-2-e1508438046925-225x225.jpg"
   }
 };
