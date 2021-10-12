@@ -1,5 +1,7 @@
 # recipe-scraper
 
+Based on the hard work from https://github.com/shaniqwa/Recipe-Scraper and https://github.com/shaniqwa/Recipe-Scraper 
+
 **A NodeJS package for scraping recipes from the web.**
 
 [![Build Status](https://travis-ci.org/jadkins89/Recipe-Scraper.svg?branch=master)](https://travis-ci.org/jadkins89/Recipe-Scraper)

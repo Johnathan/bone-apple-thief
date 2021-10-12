@@ -1,8 +1,8 @@
 {
-  "name": "recipe-scraper",
-  "version": "2.1.1",
+  "name": "bone-apple-thief",
+  "version": "1.0.0",
   "description": "A JS package for scraping recipes from the web.",
-  "author": "Justin Adkins <jadkins1019@gmail.com>",
+  "author": "Johnathan Barrett <johnathan.barrett@gmail.com>",
   "license": "MIT",
   "keywords": [
     "recipes",
@@ -25,12 +25,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jadkins89/Recipe-Scraper.git"
+    "url": "git+https://github.com/johnathan/bone-apple-thief.git"
   },
   "bugs": {
-    "url": "https://github.com/jadkins89/Recipe-Scraper/issues"
+    "url": "https://github.com/johnathan/bone-apple-thief/issues"
   },
-  "homepage": "https://github.com/jadkins89/Recipe-Scraper#readme",
+  "homepage": "https://github.com/johnathan/bone-apple-thief#readme",
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
     "jsonschema": "^1.4.0",
